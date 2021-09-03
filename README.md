@@ -1,2 +1,1 @@
-# EC463 Mini Project 
-# App that calculate calories of food using REST api
+# EC463 Mini Project -- calculate calories of food using REST api
