@@ -1,19 +1,27 @@
 //miniProject UI. Access camera  
 //author: Kevin Lim 
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {FC} from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, Dimensions } from 'react-native';
-import {Camera} from 'expo-camera'
+//import {Camera} from 'expo-camera'
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
 
 export default function App() {
 
   
   const [startCamera, setStartCamera] = React.useState(false)
+  const [scanned, setScanned] = React.useState(false)
+
+  type scannedVal = {
+    type: string;
+    data: string;
+  }
 
 
-  const openCamera = async () => {
-    const {status} = await Camera.requestPermissionsAsync()
+const openCamera = async () => {
+    /*const {status} = await Camera.requestPermissionsAsync()*/
+    const {status} = await BarCodeScanner.requestPermissionsAsync()
  if(status === 'granted'){
   setStartCamera(true)
  }else{
@@ -21,18 +29,27 @@ export default function App() {
  }
 }
 
-const closeCamera = async () => {
+/*const closeCamera = async () => {
   setStartCamera(false)
+}*/
+
+const scanBar: React.FC<scannedVal> = ({type, data}) => {
+  setScanned(true)
+  alert(`Bar code type: ${type}\ndata: ${data}\n scanned!`)
+  return null
 }
 
   return (
 
-    startCamera?(<Camera style={styles.cameraView}>
-        <View style={styles.cameraReturn}>
-            <Button title = 'Return' color='#ffffff' onPress={closeCamera}/>
-        </View>
-        <TouchableOpacity style={styles.scanButton} /*onPress={}*/ />
-      </Camera>
+    startCamera?(<View style={styles.cameraView}>
+        <BarCodeScanner
+        onBarCodeScanned={scanned ? undefined : scanBar}
+        style={StyleSheet.absoluteFillObject}/>
+        <TouchableOpacity style={styles.scanButton} onPress={()=>setScanned(false)} />
+        <TouchableOpacity style={styles.cameraReturn} onPress={()=>setStartCamera(false)}>
+          <Text style={styles.returnText}>Return</Text>
+        </TouchableOpacity>
+      </View>
     ):(
 
     <View style={styles.container}>
@@ -62,13 +79,20 @@ const styles = StyleSheet.create({
   },
   cameraView: {
     flex: 1,
-    width: "100%"
+    width: "100%",
   },
   cameraReturn: {
     position: 'absolute',
-    top: 40,
-    left: 20
+    top: 60,
+    left: 20,
+    width: 50,
+    height: 50,
   },
+  returnText: {
+    fontWeight: 'bold',
+    color: 'white'
+  },
+
   scanButton: {
     position: 'absolute',
     width: 80,
@@ -76,7 +100,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     bottom: 40,
     left: Dimensions.get('window').width/2 - 40,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#F76647'
 
   }
 })
