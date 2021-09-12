@@ -14,13 +14,8 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-<<<<<<< HEAD
-import TabOneScreen from '../screens/LandingScreen';
+import LandingScreen from '../screens/LandingScreen';
 import UserScreen from '../screens/User Screen';
-=======
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
->>>>>>> parent of 474c59d (Revert "Created a new Expo app")
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -69,9 +64,9 @@ function BottomTabNavigator() {
       }}>
       <BottomTab.Screen
         name="TabOne"
-        component={TabOneScreen}
+        component={LandingScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
+          title: 'Scan',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Pressable
@@ -91,13 +86,9 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="TabTwo"
-<<<<<<< HEAD
         component={UserScreen}
-=======
-        component={TabTwoScreen}
->>>>>>> parent of 474c59d (Revert "Created a new Expo app")
         options={{
-          title: 'Tab Two',
+          title: 'Recipes',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
