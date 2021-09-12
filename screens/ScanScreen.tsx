@@ -22,22 +22,10 @@ export default function ScanScreen({ navigation }: RootTabScreenProps<'TabOne'>)
             alert("Access denied\nGo to Settings to grant permission")
         }
     }
-    const getFoodProfilefromFDA = async (data) => {
-        try {
-            const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query='+data+'&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
-            const response = await fetch(
-                url
-            );
-            const json = await response.json();
-            return json.foods.description;
-        } catch (error) {
-            console.error(error);
-        }
-    };
     const scanBar: React.FC<scannedVal> = ({ type, data }) => {
         setScanned(true);
-        const json = getFoodProfilefromFDA(data);
-        alert(`Bar code type: ${type}\ndata: ${json}\n scanned!`)
+        //navigation.navigate('Modal', {data})
+        //alert(`Bar code type: ${type}\ndata: ${json}\n scanned!`)
         return null
     }
 
