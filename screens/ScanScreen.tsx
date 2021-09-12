@@ -1,10 +1,12 @@
+//scan screen
+//author: Alex Necakov, Kevin Lim
 import * as React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { RootTabScreenProps } from '../types';
 
-export default function LandingScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function ScanScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
     const [startCamera, setStartCamera] = React.useState(false)
     const [scanned, setScanned] = React.useState(false)
 
@@ -13,17 +15,29 @@ export default function LandingScreen({ navigation }: RootTabScreenProps<'TabOne
         data: string;
     }
     const openCamera = async () => {
-        /*const {status} = await Camera.requestPermissionsAsync()*/
         const { status } = await BarCodeScanner.requestPermissionsAsync()
         if (status === 'granted') {
             setStartCamera(true)
         } else {
-            alert("Access denied")
+            alert("Access denied\nGo to Settings to grant permission")
         }
     }
+    const getFoodProfilefromFDA = async (data) => {
+        try {
+            const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query='+data+'&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
+            const response = await fetch(
+                url
+            );
+            const json = await response.json();
+            return json.foods.description;
+        } catch (error) {
+            console.error(error);
+        }
+    };
     const scanBar: React.FC<scannedVal> = ({ type, data }) => {
-        setScanned(true)
-        alert(`Bar code type: ${type}\ndata: ${data}\n scanned!`)
+        setScanned(true);
+        const json = getFoodProfilefromFDA(data);
+        alert(`Bar code type: ${type}\ndata: ${json}\n scanned!`)
         return null
     }
 
