@@ -14,8 +14,13 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
+<<<<<<< HEAD
 import TabOneScreen from '../screens/LandingScreen';
 import UserScreen from '../screens/User Screen';
+=======
+import TabOneScreen from '../screens/TabOneScreen';
+import TabTwoScreen from '../screens/TabTwoScreen';
+>>>>>>> parent of 474c59d (Revert "Created a new Expo app")
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -86,7 +91,11 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="TabTwo"
+<<<<<<< HEAD
         component={UserScreen}
+=======
+        component={TabTwoScreen}
+>>>>>>> parent of 474c59d (Revert "Created a new Expo app")
         options={{
           title: 'Tab Two',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
