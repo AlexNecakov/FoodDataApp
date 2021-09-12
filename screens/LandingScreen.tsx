@@ -1,17 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, Dimensions } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { RootTabScreenProps } from '../types';
 
-
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
-
-export default function App() {
-    const isLoadingComplete = useCachedResources();
-    const colorScheme = useColorScheme();
+export default function LandingScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
     const [startCamera, setStartCamera] = React.useState(false)
     const [scanned, setScanned] = React.useState(false)
 
@@ -19,19 +12,8 @@ export default function App() {
         type: string;
         data: string;
     }
-
-    if (!isLoadingComplete) {
-        return null;
-    } else {
-        return (
-            <SafeAreaProvider>
-                <Navigation colorScheme={colorScheme} />
-                <StatusBar />
-            </SafeAreaProvider>
-        );
-    }
-
     const openCamera = async () => {
+        /*const {status} = await Camera.requestPermissionsAsync()*/
         const { status } = await BarCodeScanner.requestPermissionsAsync()
         if (status === 'granted') {
             setStartCamera(true)
@@ -39,19 +21,17 @@ export default function App() {
             alert("Access denied")
         }
     }
-
-    /*const closeCamera = async () => {
-      setStartCamera(false)
-    }*/
-
     const scanBar: React.FC<scannedVal> = ({ type, data }) => {
         setScanned(true)
         alert(`Bar code type: ${type}\ndata: ${data}\n scanned!`)
         return null
     }
 
-    return (
+    /*const closeCamera = async () => {
+      setStartCamera(false)
+    }*/
 
+    return (
         startCamera ? (<View style={styles.cameraView}>
             <BarCodeScanner
                 onBarCodeScanned={scanned ? undefined : scanBar}
@@ -72,7 +52,51 @@ export default function App() {
 
                 <StatusBar style="auto" />
             </View>)
-
-    )
+    );
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#ffffff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    separator: {
+        marginVertical: 30,
+        height: 1,
+        width: '80%',
+    },
+    buttonBox: {
+        marginTop: 20,
+        backgroundColor: '#1a53ff',
+    },
+    cameraView: {
+        flex: 1,
+        width: "100%",
+    },
+    cameraReturn: {
+        position: 'absolute',
+        top: 60,
+        left: 20,
+        width: 50,
+        height: 50,
+    },
+    returnText: {
+        fontWeight: 'bold',
+        color: 'white'
+    },
+    scanButton: {
+        position: 'absolute',
+        width: 80,
+        height: 80,
+        borderRadius: 50,
+        bottom: 40,
+        left: Dimensions.get('window').width / 2 - 40,
+        backgroundColor: '#F76647'
+    }
+});
