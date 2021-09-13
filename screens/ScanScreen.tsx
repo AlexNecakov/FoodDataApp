@@ -4,8 +4,9 @@ import * as React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { RootTabScreenProps } from '../types';
 
-export default function ScanScreen() {
+export default function ScanScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
     const [startCamera, setStartCamera] = React.useState(false)
     const [scanned, setScanned] = React.useState(false)
 
@@ -23,7 +24,7 @@ export default function ScanScreen() {
     }
     const scanBar: React.FC<scannedVal> = ({ type, data }) => {
         setScanned(true);
-        //navigation.navigate('Modal', {upcCode: data})
+        //navigation.navigate('Modal', {data})
         //alert(`Bar code type: ${type}\ndata: ${json}\n scanned!`)
         return null
     }

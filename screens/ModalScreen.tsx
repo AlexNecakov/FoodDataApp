@@ -3,8 +3,10 @@ import * as React from 'react';
 import { Platform, StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
+import { RootStackScreenProps } from '../types';
 
-export default function ModalScreen() {
+export default function ModalScreen({ navigation }: RootStackScreenProps<'Modal'>) {
+    //const nutritionData = navigation.
 
     const getFoodProfilefromFDA = async (data: string) => {
         try {
