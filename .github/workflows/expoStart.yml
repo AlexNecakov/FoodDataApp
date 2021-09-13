@@ -1,5 +1,4 @@
-name: NodeJS with Grunt
-
+name: Expo CLI Compile Test
 on:
   push:
     branches: [ main ]
