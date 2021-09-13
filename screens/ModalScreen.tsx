@@ -1,21 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { Platform, StyleSheet } from 'react-native';
-
+import ReactJson from 'react-json-view'
 import { Text, View } from '../components/Themed';
 import { RootStackScreenProps } from '../types';
 
-export default function ModalScreen({ navigation }: RootStackScreenProps<'Modal'>) {
-    //const nutritionData = navigation.
+export default function ModalScreen({ route, navigation }: RootStackScreenProps<'Modal'>) {
 
-    const getFoodProfilefromFDA = async (data: string) => {
+    const barCode:string = route.params.upcCode;
+    const getFoodProfilefromFDA = async (barCode:string) => {
         try {
-            var url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query=' + data + '&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
+            var url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query=' + barCode + '&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
             const response = await fetch(
                 url
             );
             const json = await response.json();
-            return json.foods.description;
+            return json;
         } catch (error) {
             console.error(error);
         }
@@ -23,7 +23,7 @@ export default function ModalScreen({ navigation }: RootStackScreenProps<'Modal'
     return (
 
         <View style={styles.container}>
-            <Text style={styles.title}>getFoodProfilefromFDA</Text>
+            <Text style={styles.title}>{barCode}</Text>
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
             {/* Use a light status bar on iOS to account for the black space above the modal */}

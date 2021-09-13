@@ -8,9 +8,8 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import ScanScreen from './screens/ScanScreen';
 import UserScreen from './screens/User Screen';
-import * as firebase from 'firebase';
-//import firebase from 'firebase'
-import 'firebase/firestore'
+import firebase from 'firebase'
+//import 'firebase/firestore'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAJnt5z9yx3YBgrzBYti5BSMj2U2bDVHRI",
