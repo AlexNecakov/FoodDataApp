@@ -6,14 +6,14 @@ import firebase from 'firebase';
 
 export default function UserScreen() {
 
-  const storeHighScore = (userId, score) => {
+  const storeFoodData = (userId, cal) => {
     //const userId: "123456@gmail.com"
-    //const score: 100
+    //const cal: 100
     firebase
       .database()
       .ref('users/' + userId)
       .set({
-        highscore: score,
+        FoodCalories: cal,
       });
 
       //return null
@@ -21,7 +21,7 @@ export default function UserScreen() {
   }
 
   const submitData = () => {
-    storeHighScore("123456@gmail", 100)
+    storeFoodData("123456@gmail", 100)
   }
 
   return (
