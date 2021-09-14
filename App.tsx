@@ -8,7 +8,7 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import ScanScreen from './screens/ScanScreen';
 import UserScreen from './screens/User Screen';
-import firebase from 'firebase/app';
+import firebase from 'firebase';
 //import initializeApp from 'firebase/app'
 import { firebaseConfig } from './config';
 import {createAppContainer, createNavigator, createSwitchNavigator} from 'react-navigation'
