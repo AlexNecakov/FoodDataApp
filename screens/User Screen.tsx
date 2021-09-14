@@ -1,14 +1,36 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Button} from 'react-native';
 
 import { Text, View } from '../components/Themed';
+import firebase from 'firebase';
 
 export default function UserScreen() {
+
+  const storeHighScore = (userId, score) => {
+    //const userId: "123456@gmail.com"
+    //const score: 100
+    firebase
+      .database()
+      .ref('users/' + userId)
+      .set({
+        highscore: score,
+      });
+
+      //return null
+
+  }
+
+  const submitData = () => {
+    storeHighScore("123456@gmail", 100)
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>User Screen</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-    </View>
+
+      <Button title="submit to cloud" onPress ={submitData} />
+    </View> 
   );
 }
 
