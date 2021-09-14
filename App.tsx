@@ -10,6 +10,10 @@ import ScanScreen from './screens/ScanScreen';
 import UserScreen from './screens/User Screen';
 import firebase from 'firebase'
 import { firebaseConfig } from './config';
+import {createAppContainer, createNavigator, createSwitchNavigator} from 'react-navigation'
+import initialScreen from './screens/initialScreen';
+import loginScreen from './screens/loginScreen';
+
 //import 'firebase/firestore'
 
 /*const firebaseConfig = {
@@ -37,9 +41,18 @@ export default function App() {
     } else {
         return (
             <SafeAreaProvider>
+                <AppNavigator /> 
                 <Navigation colorScheme={colorScheme} />
                 <StatusBar />
             </SafeAreaProvider>
         );
     }
 }
+
+const AppSwitchNavigator = createSwitchNavigator({
+    initialScreen: initialScreen,
+    loginScreen: loginScreen,
+    ScanScreen: ScanScreen
+});
+
+const AppNavigator = createAppContainer(AppSwitchNavigator)
