@@ -10,12 +10,24 @@ export default function ModalScreen({ route, navigation }: RootStackScreenProps<
     const barCode:string = route.params.upcCode;
     const getFoodProfilefromFDA = async (barCode:string) => {
         try {
-            var url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query=' + barCode + '&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
+            //var url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query=' + 'barCode' + '&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
+            //nutella test case
+            var url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query=' + '009800800254' + '&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
             const response = await fetch(
-                url
+                url,
+                {method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    generalSearchInput: barCode,
+                    requireAllWords: true,
+                    pageNumber: 1
+                }),}
             );
             const json = await response.json();
-            return json;
+            return json?.description ? json.description : 'No foods found';
         } catch (error) {
             console.error(error);
         }
@@ -23,7 +35,7 @@ export default function ModalScreen({ route, navigation }: RootStackScreenProps<
     return (
 
         <View style={styles.container}>
-            <Text style={styles.title}>{barCode}</Text>
+            <Text style={styles.title}>{getFoodProfilefromFDA(barCode)}</Text>
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
             {/* Use a light status bar on iOS to account for the black space above the modal */}
