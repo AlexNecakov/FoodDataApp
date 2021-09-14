@@ -1,5 +1,5 @@
 //navigation, bottom tab and root stack
-//author: Alex Necakov
+//author: Alex Necakov, Kevin Lim
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
@@ -9,6 +9,7 @@ import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
+import loginScreen from '../screens/loginScreen';
 import ModalScreen from '../screens/ModalScreen';
 import ScanScreen from '../screens/ScanScreen';
 import UserScreen from '../screens/User Screen';
@@ -84,6 +85,14 @@ function BottomTabNavigator() {
         component={UserScreen}
         options={{
           title: 'Recipes',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="LoginTab"
+        component={loginScreen}
+        options={{
+          title: 'Login',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
