@@ -7,6 +7,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { RootTabScreenProps } from '../types';
 
 export default function ScanScreen({ navigation }: RootTabScreenProps<'ScanTab'>) {
+//export default function ScanScreen() {
     const [startCamera, setStartCamera] = React.useState(false)
     const [scanned, setScanned] = React.useState(false)
 
@@ -24,7 +25,8 @@ export default function ScanScreen({ navigation }: RootTabScreenProps<'ScanTab'>
     }
     const scanBar: React.FC<scannedVal> = ({ type, data }) => {
         setScanned(true);
-        navigation.navigate('Modal', {upcCode: data})
+        //navigation.navigate('Modal', {upcCode: data})
+        alert("Data Scanned")
         return null
     }
 
