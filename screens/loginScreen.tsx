@@ -2,14 +2,16 @@ import * as React from 'react';
 import { StyleSheet, Button, ActivityIndicator } from 'react-native';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
-//import firebase from 'firebase';
+import firebase from 'firebase';
 import * as Google from 'expo-google-app-auth';
 import * as Goo from 'expo-google-sign-in';
-import { getAuth, onAuthStateChanged, signInWithCredential, GoogleAuthProvider } from "firebase/auth";
-const auth = getAuth();
+
+//import { getAuth, onAuthStateChanged, signInWithCredential, GoogleAuthProvider } from "firebase/auth";
+
+//const auth = getAuth();
 
 export default function loginScreen() {
-
+/*
     const isUserEqual = (googleUser, firebaseUser)=> {
         if (firebaseUser) {
           const providerData = firebaseUser.providerData;
@@ -53,7 +55,7 @@ export default function loginScreen() {
             console.log('User already signed-in Firebase.');
           }
         });
-      }
+      }*/
 
     const signInWithGoogleAsync = async() =>  {
         try {
@@ -65,7 +67,7 @@ export default function loginScreen() {
           });
       
           if (result.type === 'success') {
-              onSignIn(result);
+              //onSignIn(result);
             return result.accessToken;
           } else {
             return { cancelled: true };
