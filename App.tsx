@@ -8,7 +8,8 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import ScanScreen from './screens/ScanScreen';
 import UserScreen from './screens/User Screen';
-import firebase from 'firebase'
+import firebase from 'firebase/app';
+//import initializeApp from 'firebase/app'
 import { firebaseConfig } from './config';
 import {createAppContainer, createNavigator, createSwitchNavigator} from 'react-navigation'
 import initialScreen from './screens/initialScreen';
@@ -32,6 +33,7 @@ import loginScreen from './screens/loginScreen';
 
 firebase.initializeApp(firebaseConfig)
 
+
 export default function App() {
     const isLoadingComplete = useCachedResources();
     const colorScheme = useColorScheme();
@@ -41,7 +43,6 @@ export default function App() {
     } else {
         return (
             <SafeAreaProvider>
-                <AppNavigator /> 
                 <Navigation colorScheme={colorScheme} />
                 <StatusBar />
             </SafeAreaProvider>
