@@ -30,6 +30,7 @@
     "expo-web-browser": "~9.2.0",
     "firebase": "8.2.3",
     "react": "16.13.1",
+    "react-bootstrap": "^1.6.3",
     "react-dom": "16.13.1",
     "react-json-view": "^1.21.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
