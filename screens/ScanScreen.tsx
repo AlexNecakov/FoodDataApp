@@ -24,8 +24,8 @@ export default function ScanScreen({ navigation }: RootTabScreenProps<'ScanTab'>
         }
     }
     const scanBar: React.FC<scannedVal> = ({ type, data }) => {
-        setScanned(true);
-        navigation.navigate('Modal', {upcCode: data})
+        setScanned(true);         
+        navigation.navigate('Modal', {upcCode: data.substr(1)})
         //alert("Data Scanned")
         return null
     }
