@@ -16,7 +16,7 @@ import initialScreen from './screens/initialScreen';
 import loginScreen from './screens/loginScreen';
 
 //import 'firebase/firestore'
-
+/*
 const firebaseConfig = {
     apiKey: "AIzaSyAJnt5z9yx3YBgrzBYti5BSMj2U2bDVHRI",
     authDomain: "firetest-8ef93.firebaseapp.com",
@@ -27,13 +27,13 @@ const firebaseConfig = {
     measurementId: "G-E912FNJMRH",
     databaseURL: "https://firetest-8ef93.firebaseio.com",
   };
-
+*/
 /*if(firebase.apps.length == 0){
     firebase.initializeApp(firebaseConfig)
 }*/
 
 //firebase.initializeApp(firebaseConfig)
-firebase.initializeApp(firebaseConfig)
+
 
 export default function App() {
     const isLoadingComplete = useCachedResources();
@@ -50,7 +50,7 @@ export default function App() {
         );
     }
 }
-
+/*
 const AppSwitchNavigator = createSwitchNavigator({
     initialScreen: initialScreen,
     loginScreen: loginScreen,
@@ -58,3 +58,4 @@ const AppSwitchNavigator = createSwitchNavigator({
 });
 
 const AppNavigator = createAppContainer(AppSwitchNavigator)
+*/
