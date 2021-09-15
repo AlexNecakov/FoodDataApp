@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   publish:
-    name: Install and publish
+    name: Install and start
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,5 +16,4 @@ jobs:
         with:
           expo-version: 4.x
       - run: yarn install
-      - run: expo publish
       - run: expo start
