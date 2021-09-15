@@ -55,8 +55,8 @@ export default function loginScreen() {
             console.log('User already signed-in Firebase.');
           }
         });
-      }*/
-
+      }
+*/
     const signInWithGoogleAsync = async() =>  {
         try {
           const result = await Google.logInAsync({
