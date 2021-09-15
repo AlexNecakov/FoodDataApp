@@ -7,27 +7,30 @@ import { RootStackScreenProps } from '../types';
 
 export default function ModalScreen({ route, navigation }: RootStackScreenProps<'Modal'>) {
 
-    const barCode:string = route.params.upcCode;
-    const getFoodProfilefromFDA = async (barCode:string) => {
+    const barCode: string = route.params.upcCode;
+    const getFoodProfilefromFDA = async (barCode: string) => {
         try {
             //var url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query=' + 'barCode' + '&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
             //nutella test case
             var url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query=' + '009800800254' + '&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
-            const response = await fetch(
-                url,
-                {method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    generalSearchInput: barCode,
-                    requireAllWords: true,
-                    pageNumber: 1
-                }),}
+            const response = await fetch(url,
+                {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                    })
+                }
             );
             const json = await response.json();
-            return json?.description ? json.description : 'No foods found';
+            const jsonFoods = json?.foods ? json.foods : 'No foods found';
+            if (jsonFoods.length > 0) {
+                return jsonFoods[0]?.description ? jsonFoods[0].description : 'No name in database';
+            } else {
+                return 'No foods found';
+            }
         } catch (error) {
             console.error(error);
         }
