@@ -34,7 +34,7 @@ export default function ModalScreen({ route, navigation }: RootStackScreenProps<
     const getFoodProfilefromFDA = async (barCode: string) => {
         var url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query=' + barCode + '&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
         //nutella test case
-        //var url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query=' + '009800800254' + '&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
+        //var url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query=' + 'nutella' + '&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
         fetch(url, {
             "method": "GET",
             headers: {
@@ -48,10 +48,14 @@ export default function ModalScreen({ route, navigation }: RootStackScreenProps<
                 if (totalHits > 0) {
                     setDescription(response.foods[0].description);
                     setBrand(response.foods[0].brandName);
-                    var i: any;
-                    for (i in response.foods[0].nutrients) {
-                        if (response.foods[0].nutrients[i].nutrientId == 1008)
-                            setCalories(response.foods[0].nutrients[i].value)
+                    var i = 0;
+                    var caloriesFound = false
+                    while (!caloriesFound) {
+                        if (response.foods[0].foodNutrients[i].nutrientId == 1008){
+                            setCalories(response.foods[0].foodNutrients[i].value)
+                            caloriesFound = true
+                        }
+                        i++
                     }
                 }
                 else {
@@ -64,7 +68,7 @@ export default function ModalScreen({ route, navigation }: RootStackScreenProps<
     }
     useEffect(() => {
         getFoodProfilefromFDA(barCode);
-        
+
     });
 
     const uploadData = () => {
