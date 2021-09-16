@@ -1,35 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Platform, StyleSheet, Button } from 'react-native';
+import { Platform, StyleSheet, Button, TextInput } from 'react-native';
 import { Text, View } from '../components/Themed';
 import Table from 'react-bootstrap/Table';
 import { RootStackScreenProps } from '../types';
 import db from '../db/firestore'
 
-
-export const NutrientIds = {
-    ENERGY: 1008,
-    CALCIUM: 1087,
-    IRON: 1089,
-    VITAMIN_A: 1104,
-    VITAMIN_C: 1162,
-    PROTEIN: 1003,
-    FAT: 1004,
-    CARBOHYDRATE: 1005,
-    SUGAR: 2000,
-    FIBER: 1079,
-    POTASSIUM: 1092,
-    SODIUM: 1093,
-    CHOLESTEROL: 1253,
-};
-
 export default function ModalScreen({ route, navigation }: RootStackScreenProps<'Modal'>) {
     const barCode: string = route.params.upcCode;
+    let [firstRun, setfirstRun] = useState(true);
     let [totalHits, setTotalHits] = useState(0);
     let [foodDescription, setDescription] = useState('');
     let [foodBrand, setBrand] = useState('');
     let [nutrientCalories, setCalories] = useState(0);
+    let [fdicId, setId] = useState(0);
+    let [servingSize, setServingSize] = useState(0);
+    let [servingSizeDefault, setServingSizeDefault] = useState(0);
+    let [servingUnits, setServingUnits] = useState('');
 
     const getFoodProfilefromFDA = async (barCode: string) => {
         var url = 'https://api.nal.usda.gov/fdc/v1/foods/search?query=' + barCode + '&api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
@@ -48,15 +36,40 @@ export default function ModalScreen({ route, navigation }: RootStackScreenProps<
                 if (totalHits > 0) {
                     setDescription(response.foods[0].description);
                     setBrand(response.foods[0].brandName);
+                    setId(response.foods[0].fdcId);
                     var i = 0;
                     var caloriesFound = false
                     while (!caloriesFound) {
-                        if (response.foods[0].foodNutrients[i].nutrientId == 1008){
+                        if (response.foods[0].foodNutrients[i].nutrientId == 1008) {
                             setCalories(response.foods[0].foodNutrients[i].value)
                             caloriesFound = true
                         }
                         i++
                     }
+                    // if (firstRun) {
+                        url = 'https://api.nal.usda.gov/fdc/v1/food/' + fdicId + '?api_key=IUK2OzgXgQx5a9rO0fAWPaUjd1LQf5sAh4q4jEsb'
+                        fetch(url, {
+                            "method": "GET",
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                            .then(response => response.json())
+                            .then(response => {
+                                setServingSize(response.servingSize);
+                                setServingSizeDefault(response.servingSize);
+                                setServingUnits(response.servingSizeUnit);
+
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    //     setfirstRun(false);
+                    // }else{
+                    //     setCalories(nutrientCalories * servingSize/servingSizeDefault)
+                    // }
+                    
                 }
                 else {
                     setDescription('Food not found in database');
@@ -75,7 +88,7 @@ export default function ModalScreen({ route, navigation }: RootStackScreenProps<
         db.collection('users').add({
             foodName: foodDescription,
             barCodeNum: barCode,
-            foodCalories: null,
+            foodCalories: nutrientCalories,
             createdAt: new Date()
         }).catch(err => console.log(err))
     }
@@ -84,9 +97,16 @@ export default function ModalScreen({ route, navigation }: RootStackScreenProps<
     return (
         <View style={styles.container}>
             <Text style={styles.title}> {foodBrand + ' ' + foodDescription}</Text>
-            <Text style={styles.title}> {barCode}</Text>
-            <Text style={styles.title}> {totalHits}</Text>
+            {/*<Text style={styles.title}> {barCode}</Text>
+            <Text style={styles.title}> {totalHits}</Text>*/}
             <Text style={styles.title}> {nutrientCalories + ' calories'}</Text>
+            <Text style={styles.title}> {'Serving Size ' + servingSize + ' ' + servingUnits}</Text>
+            <TextInput
+                style={{ height: 40, borderColor: 'gray', borderWidth: 40 }}
+                keyboardType='numeric'
+                onChangeText={servingSize => setServingSize(parseInt(servingSize))}
+                value={servingSize.toString()}
+            />
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
             <Button title="upload" onPress={uploadData} />
