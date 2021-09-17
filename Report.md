@@ -8,6 +8,14 @@ Choosing a framework was our first design decision in the mini-project. We ended
 Though React gave us the option of using either Javascript or Typescript, we chose to do the majority of development in Typescript. As neither of us were very familiar with React to start off, we based our code off of the Multi-Tabbed template Expo provides when creating a new project. This template included Stack and BottomTab navigators, which we went through and reverse-engineered partway through the project. The Multi-Tabbed template happened to be in Typsecript, and neither of us having a preference for JS over TS, we stuck with Typescript for consistency.
 
 ## Cloud Service: Firebase
+We use Firestore Database for data storage. User can store/fetch scanned data from the database. To access the cloud service, specific message is required to pass to Firebase, including API Key, project ID and APP ID. The access requirement is in the "db" folder. This folder could help us connect to Firestore and perform actions on the database. The cloud service is initially disconnected from the app. Connection between the app and the cloud service will be created when the user press "upload"/"reload" button. The database stores the following information:
+
+ - Barcode Number
+ - upload date and time
+ - Calories of product
+ - Product Name
+
+When users retrieve data from the database, all of the information will be passed to the app, but only Product Name and Calories of Product will be displayed.
 
 ## UI Design/App Flow
 Working in React Typescript had our UI development integrated very closely with our backend development. Our final design consists of three main screens: 
@@ -26,8 +34,9 @@ When brought up, the modal screen slides over top of the Scan Screen and can be 
 
 Also on the screen are an input box to change the serving size (that is currently disabled) and a button to upload the data to Firebase. Other nutrients were considered to be included on this screen, but we only left calories in the final product. We had been trying to implement a table to include the whole nutrient list from the FDC REST call but had trouble converting the JSON object into a full table. With another few days this could be implemented, but we decided to focus on core functionality over reporting additional data for this project's timeframe.
 ### Recipes Screen
-This tab would've held user recipes/a history of foods that the user has scanned. We did not have enough time to implement this feature, but the tab remains as part of our UI design to build towards.
+The Recipes Screen displays product name, calories and holds a history of foods that the user has scanned. On the top of the screen there are three checkboxes to remind users to have breakfast, lunch and dinner. Information displayed on the Recipes Screen is retrieved from the firestore cloud service. User can hit the "reload" button on the top right of the screen to update their scanned list. The data retrieval function is created with the firebase sdk.
 ### Login Screen
+The login screen consist of a simple indication message and a touchable text that could prompt users to the google login page. Through the login page, users can enter their Gmail account, however, the firebase cloud is not able to record user login profile due to failure implementation of "firebase/auth" modules. Based on our inspection so far, the issue is caused by the outdated version of "firebase" package. Since the newer packages are still in Beta version, they are not compatible with expo development tool.
 
 ## FDC REST API Access
 Behind the scenes, we successfully were able to implement access to the FDC REST API in our app. When barcodes are scanned in the scan tab, the barcode (UPC code) is passed along to the modal screen. However, the barcode scanner package we used interpreted most barcodes in a different barcode format than UPC, which pads the beginning of the barcode with an extra zero. We strip this leading zero when passing the barcode into the fetch request in order to do a search off of the UPC code. The FDC API uses FDIC IDs as its primary key, so we cannot directly look up a food without knowing the ID, and must do a search off of the UPC code, as that is a field within each food object. We decided to make this a GET instead of a POST request as we didn't need to send any information to the server, and just wanted to pull the result as a JSON object. When the search gets a match with a food in the database, we are able to grab the name, calories, FDC IDetc. but not the serving size of the food. In order to be able to find serving size, we had to use the FDC ID of the food found from the search, and directly lookup the food in the database. This direct lookup contains the serving size information we needed. Hooks were used to store the JSON object data in, allowing us to display the values of the information from the database in the view.
