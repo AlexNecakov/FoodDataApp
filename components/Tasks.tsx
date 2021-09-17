@@ -5,7 +5,7 @@ import db from '../db/firestore'
 
 
 const Tasks = () => {
-
+/*
     const [tasks, setTasks] = useState<Object[]>()
 
     useEffect(() => {
@@ -20,21 +20,20 @@ const Tasks = () => {
           })))
           .then(tasks => setTasks(tasks))
       }, [])
-
+*/
     return(
     <View>
-        {
-            tasks?.map( task => <View key = {task.id} style={style.taskItem}>
-                <Text>{task.name}</Text>
-                <CheckBox value = {!!task.completedAt} />
-            </View>)
-        }
+
         <View style={style.taskItem}>
-            <Text>Apple</Text>
+            <Text>Breakfast</Text>
             <CheckBox value={true}/>
         </View>
         <View style={style.taskItem}>
-            <Text>Orange</Text>
+            <Text>Lunch</Text>
+            <CheckBox value={false}/>
+        </View>
+        <View style={style.taskItem}>
+            <Text>Dinner</Text>
             <CheckBox value={false}/>
         </View>
     </View>
